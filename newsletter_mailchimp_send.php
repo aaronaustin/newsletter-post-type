@@ -4,7 +4,7 @@
     
     function send_newsletter(){
 
-        // $mailchimp_response = contact_mailchimp();
+        $mailchimp_response = contact_mailchimp();
 
         if (!isset ($_REQUEST['link'])) {
             // set the return value you want on error
@@ -20,13 +20,13 @@
             // wp_send_json_error ($return_value) ;
         wp_send_json_success ($return_value) ;
 
-		    // if($contentResponse['status'] == 200){
-		    // 	// $url="https://us9.api.mailchimp.com/3.0/campaigns/".$campaignId."/actions/send";
-		    // 	// $sendResponse = $this->mailchimpSendRequest(null, $url);
-		    // }
-		    // else {
-		    // 	echo false;
-		    // }
+		    if($contentResponse['status'] == 200){
+		    	// $url="https://us9.api.mailchimp.com/3.0/campaigns/".$campaignId."/actions/send";
+		    	// $sendResponse = $this->mailchimpSendRequest(null, $url);
+		    }
+		    else {
+		    	echo false;
+		    }
 
 
              exit();
@@ -38,7 +38,7 @@
 		$subject = 'test';
 		$today = date('m/d/Y');
 		$name = 'Central Baptist Church Weekly Newsletter '.$today;
-		// $compiledData = '{"recipients":{"list_id":"187bc67e2c"},"type":"regular","settings":{"subject_line":"Test Subject","reply_to":"info@lexcentral.com","from_name":"Central Baptist Church"}}';
+		// $compiledData = '{"recipients":{"list_id":"xxxxxx"},"type":"regular","settings":{"subject_line":"Test Subject","reply_to":"info@lexcentral.com","from_name":"Central Baptist Church"}}';
 
 		$api_key = "auth:" . get_option('mailchimp_api_key', 'default text');
 		$list_id = get_option('mailchimp_list_id', 'default text');
