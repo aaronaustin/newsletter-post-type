@@ -1,7 +1,7 @@
 <?php
 /*Plugin Name: Create Newsletter Post Type
 Description: This plugin registers the newsletter post type.
-Version: 1.0
+Version: 1.0.1
 License: GPLv2
 GitHub Plugin URI: https://github.com/aaronaustin/newsletter-post-type
 */
