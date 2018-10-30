@@ -12,11 +12,11 @@ function create_newsletter_post_type() {
 	$labels = array(
  		'name' => 'Newsletter',
     	'singular_name' => 'Newsletter',
-    	'add_new' => 'Add New Newsletter',
-    	'add_new_item' => 'Add New Newsletter',
+    	'add_new' => 'New Newsletter',
+    	'add_new_item' => 'New Newsletter',
     	'edit_item' => 'Edit Newsletter',
     	'new_item' => 'New Newsletter',
-    	'all_items' => 'All Newsletter',
+    	'all_items' => 'All Newsletters',
     	'view_item' => 'View Newsletter',
     	'search_items' => 'Search Newsletter',
     	'not_found' =>  'No Newsletter Found',
@@ -36,6 +36,7 @@ function create_newsletter_post_type() {
 		'rewrite' => array( 'slug' => 'newsletter'),
 		'rest_base' => '',
         'rest_controller_class' => '',
+        'menu_icon' => 'dashicons-email',
         'supports' => array( 'title', 'editor', 'thumbnail','newsletter_start_datetime' )
 		)
 	);
@@ -96,6 +97,7 @@ function newsletter_post_type_assets() {
     wp_enqueue_style('newsletter_post_type_style');
     wp_register_script( 'newsletter_post_type_script', plugins_url('script.js',__FILE__ ));
     wp_enqueue_script('newsletter_post_type_script');
+    wp_enqueue_media();
     wp_localize_script( 'newsletter_post_type_script', 'linkToNewsletter', array( 'myPermalink' => get_permalink($_GET['post']), ) );
 }
 
@@ -121,6 +123,7 @@ function latest_events_template($template) {
     return $template;
 }
 
+include 'newsletter_options.php';
 include 'newsletter_send_meta_box.php';
 include 'newsletter_mailchimp_send.php';
 

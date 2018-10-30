@@ -34,7 +34,7 @@
         // original for single retrieve.
         //https://developer.wordpress.org/reference/functions/get_post_meta/
         // $value = get_post_meta( $post->ID, 'newsletter_sent_date', true );
-        $newsletter_meta = get_post_meta( $post->ID, false );
+
 
         echo '<button id="newsletter-send-reveal" class="button button-primary send">Send Newsletter</button>
             <button id="send-newsletter" class="button button-primary hide">Are You Sure?</button>
