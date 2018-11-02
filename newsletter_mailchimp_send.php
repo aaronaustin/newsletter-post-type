@@ -6,7 +6,7 @@
 		$subject = $_REQUEST['subject'];
 		$date = $_REQUEST['date'];
 		$title = $_REQUEST['title'];
-		$title = $_REQUEST['link'];
+		$link = $_REQUEST['link'];
 		// $title = 'https://lexcentral.com/event_calendar/newsletter';
 		$mailchimp_response = contact_mailchimp($subject, $title, $date, $link);
 		
@@ -14,7 +14,7 @@
         if (!isset ($_REQUEST['title'])) {
             // set the return value you want on error
             // return value can be ANY data type (e.g., array())
-            $return_value = 'fail';
+            // echo 'fail';
 
             wp_send_json_error($mailchimp_response);
         }
@@ -26,8 +26,8 @@
 		    if($mailchimp_response['status'] == 200){
 		    	// $url="https://us9.api.mailchimp.com/3.0/campaigns/".$campaignId."/actions/send";
 				// $sendResponse = $this->mailchimpSendRequest(null, $url);
-				$return_value = 'success';
-				wp_send_json_success ($mailchimp_response) ;
+				// echo'success';
+				wp_send_json_success($mailchimp_response) ;
 		    }
 		    else {
 		    	echo false;
@@ -73,6 +73,8 @@
 
 		$decodedResponse = json_decode($response);
 		$campaignId = $decodedResponse->id;
+
+		// echo $decodedResponse;
 
 		if(!empty($campaignId)){
 			//add campaign content with url
