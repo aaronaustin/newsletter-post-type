@@ -99,6 +99,10 @@ function newsletter_post_type_assets() {
     wp_enqueue_script('newsletter_post_type_script');
     wp_enqueue_media();
     wp_localize_script( 'newsletter_post_type_script', 'linkToNewsletter', array( 'myPermalink' => get_permalink($_GET['post']), ) );
+    wp_localize_script( 'newsletter_post_type_script', 'newsletterSubject', array( 'subject' => get_field('subject',$_GET['post']), ) );
+    wp_localize_script( 'newsletter_post_type_script', 'newsletterTitle', array( 'title' => get_the_title($_GET['post']), ) );
+    wp_localize_script( 'acf_relationship_mods_script', 'newsletterDate', array( 'date' => date('m/d/Y', strtotime(get_field('send_date',$_GET['post']))), ) );
+
 }
 
 add_action( 'admin_init','newsletter_post_type_assets');

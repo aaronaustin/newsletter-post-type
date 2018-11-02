@@ -37,6 +37,9 @@ jQuery(document).ready(function ($) {
     //run curl to mailchimp
     // get response in promise and change
     console.log(linkToNewsletter);
+    console.log(newsletterDate);
+    console.log(newsletterSubject);
+    console.log(newsletterTitle);
     $.ajax({
       url: ajaxurl,
       type: 'POST',
@@ -47,7 +50,10 @@ jQuery(document).ready(function ($) {
         action: 'send_newsletter',
         // ANY other properties of data are passed to your_function()
         // in the PHP global $_REQUEST (or $_POST in this case)
-        link: linkToNewsletter.myPermalink
+        link: linkToNewsletter.myPermalink,
+        title: newsletterTitle.title,
+        subject: newsletterSubject.subject,
+        date: newsletterDate.date,
       },
       success: function (resp) {
         if (resp.success) {
@@ -61,7 +67,7 @@ jQuery(document).ready(function ($) {
         else {
           // this "error" case means the ajax call, itself, succeeded, but the function
           // called returned an error condition
-          console.log(resp);
+          console.log('error: ', resp);
         }
       },
       error: function (xhr, ajaxOptions, thrownError) {

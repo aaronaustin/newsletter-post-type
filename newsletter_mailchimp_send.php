@@ -3,26 +3,31 @@
     add_action ('wp_ajax_send_newsletter', 'send_newsletter') ;
     
     function send_newsletter(){
+		$subject = $_REQUEST['subject'];
+		$date = $_REQUEST['date'];
+		$title = $_REQUEST['title'];
+		$title = $_REQUEST['link'];
+		// $title = 'https://lexcentral.com/event_calendar/newsletter';
+		$mailchimp_response = contact_mailchimp($subject, $title, $date, $link);
+		
 
-        $mailchimp_response = contact_mailchimp();
-
-        if (!isset ($_REQUEST['link'])) {
+        if (!isset ($_REQUEST['title'])) {
             // set the return value you want on error
             // return value can be ANY data type (e.g., array())
-            $return_value = $_REQUEST . 'test';
+            $return_value = 'fail';
 
-            wp_send_json_error ($return_value) ;
+            wp_send_json_error($mailchimp_response);
         }
 
         // $id = intval ($_REQUEST['id']) ;
-        $permalink = $_REQUEST ;
-        $return_value = $permalink ;
             // wp_send_json_error ($return_value) ;
-        wp_send_json_success ($return_value) ;
+        
 
-		    if($contentResponse['status'] == 200){
+		    if($mailchimp_response['status'] == 200){
 		    	// $url="https://us9.api.mailchimp.com/3.0/campaigns/".$campaignId."/actions/send";
-		    	// $sendResponse = $this->mailchimpSendRequest(null, $url);
+				// $sendResponse = $this->mailchimpSendRequest(null, $url);
+				$return_value = 'success';
+				wp_send_json_success ($mailchimp_response) ;
 		    }
 		    else {
 		    	echo false;
@@ -33,11 +38,8 @@
 
     }
 
-    function contact_mailchimp () {
+    function contact_mailchimp ($subject, $title, $date, $link ) {
         // $data = $this->event_calendar_newsletter_description_model->get(1);
-		$subject = 'test';
-		$today = date('m/d/Y');
-		$name = 'Central Baptist Church Weekly Newsletter '.$today;
 		// $compiledData = '{"recipients":{"list_id":"xxxxxx"},"type":"regular","settings":{"subject_line":"Test Subject","reply_to":"info@lexcentral.com","from_name":"Central Baptist Church"}}';
 
 		$api_key = "auth:" . get_option('mailchimp_api_key', 'default text');
@@ -47,14 +49,13 @@
 		$compiledData->settings = new stdClass();
 		$compiledData->recipients = array('list_id'=> $list_id );
 		$compiledData->type = 'regular';
-		$compiledData->settings->title =$name;
+		$compiledData->settings->title =$title;
 		$compiledData->settings->subject_line = $subject;
 		$compiledData->settings->reply_to = 'info@lexcentral.com';
 		$compiledData->settings->from_name = 'Central Baptist Church';
 
-		$newsletter_meta = get_post_meta( $post->ID, false );
+		// $newsletter_meta = get_post_meta( $post->ID, false );
         
- 
 		$data_json = json_encode($compiledData);
 		$url = 'https://us9.api.mailchimp.com/3.0/campaigns/';
 
@@ -77,7 +78,7 @@
 			//add campaign content with url
 			$templateData = new stdClass();
 		    $templateData->url = new stdClass();
-		    $templateData->url="http://www.lexcentral.com/event_calendar/newsletter";
+		    $templateData->url = $link;
 		    $content_json = json_encode($templateData);
 		    $content_url="https://us9.api.mailchimp.com/3.0/campaigns/".$campaignId."/content";
 
@@ -114,6 +115,10 @@
 		else {
 			return 'could not update campaign content';
 		}
-    }
+	}
+
 
     ?>
+
+
+	
