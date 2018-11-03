@@ -1,7 +1,7 @@
 <?php
 /*Plugin Name: Create Newsletter Post Type
 Description: This plugin registers the newsletter post type.
-Version: 1.0.7
+Version: 1.0.8
 License: GPLv2
 GitHub Plugin URI: https://github.com/aaronaustin/newsletter-post-type
 */
@@ -50,45 +50,8 @@ function set_custom_edit_newsletter_columns($columns) {
     unset( $columns['categories'] );
     unset( $columns['comments'] );
     unset( $columns['tags'] );
-    // unset( $columns['date'] );
-    // $columns['newsletter_start_datetime'] = __( 'Start Date', 'newsletter_start_datetime' );
-    // $columns['end_date'] = __( 'End', 'your_text_domain' );
-
+ 
     return $columns;
-}
-
-// Add the data to the custom columns for the newsletter post type:
-add_action( 'manage_newsletter_posts_custom_column' , 'custom_newsletter_column', 10, 2 );
-function custom_newsletter_column( $column, $post_id ) {
-    switch ( $column ) {
-
-        case 'newsletter_start_datetime' :
-            echo date("Y-m-d g:i a", strtotime(get_post_meta( $post_id , 'newsletter_start_datetime' , true )));
-            break;
-
-        case 'end_date' :
-            echo date("Y-m-d g:i a", get_post_meta( $post_id , 'end_date' , true ));
-            break;
-
-    }
-}
-
-add_filter( 'manage_edit-newsletter_sortable_columns', 'set_custom_newsletter_sortable_columns' );
-function set_custom_newsletter_sortable_columns( $columns ) {
-    $columns['newsletter_start_datetime'] = 'newsletter_start_datetime';
-    $columns['end_date'] = 'end_date';
-    return $columns;
-}
-
-add_action( 'pre_get_posts', 'newsletter_custom_orderby' );
-function newsletter_custom_orderby( $query ) {
-  if ( ! is_admin() )
-    return;
-  $orderby = $query->get( 'orderby');
-  if ( 'newsletter_start_datetime' == $orderby ) {
-    $query->set( 'meta_key', 'newsletter_start_datetime');
-    $query->set( 'orderby', 'meta_value' );
-  }
 }
 
 //add styles and scripts
@@ -97,7 +60,6 @@ function newsletter_post_type_assets() {
     wp_enqueue_style('newsletter_post_type_style');
     wp_register_script( 'newsletter_post_type_script', plugins_url('script.js',__FILE__ ));
     wp_enqueue_script('newsletter_post_type_script');
-    wp_enqueue_media();
     wp_localize_script( 'newsletter_post_type_script', 'linkToNewsletter', array( 'myPermalink' => get_permalink($_GET['post']), ) );
     wp_localize_script( 'newsletter_post_type_script', 'newsletterSubject', array( 'subject' => get_field('subject',$_GET['post']), ) );
     wp_localize_script( 'newsletter_post_type_script', 'newsletterTitle', array( 'title' => get_the_title($_GET['post']), ) );
