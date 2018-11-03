@@ -11,13 +11,13 @@
 		$mailchimp_response = contact_mailchimp($subject, $title, $date, $link);
 		
 
-        if (!isset ($_REQUEST['title'])) {
-            // set the return value you want on error
-            // return value can be ANY data type (e.g., array())
-            // echo 'fail';
+        // if (!isset ($_REQUEST['title'])) {
+        //     // set the return value you want on error
+        //     // return value can be ANY data type (e.g., array())
+        //     // echo 'fail';
 
-            wp_send_json_error($mailchimp_response);
-        }
+        //     wp_send_json_error($mailchimp_response);
+        // }
 
         // $id = intval ($_REQUEST['id']) ;
             // wp_send_json_error ($return_value) ;
@@ -30,7 +30,7 @@
 				wp_send_json_success($mailchimp_response) ;
 		    }
 		    else {
-		    	echo false;
+		    	wp_send_json_error($mailchimp_response);
 		    }
 
 
