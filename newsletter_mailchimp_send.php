@@ -109,7 +109,7 @@
 			    curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json','Content-Length: 0'));
 				$send_response = curl_exec($curl);
 				curl_close ($curl);
-				echo $send_response;
+				return $send_response;
 			}
 			else {
 				return 'could not send campaign.';
@@ -120,9 +120,4 @@
 			return 'could not update campaign content';
 		}
 	}
-
-
     ?>
-
-
-	
