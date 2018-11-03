@@ -72,12 +72,12 @@
                 'type' => 'text',
                 'placeholder' => 'xxxxxxxxxxxxxxxxxxxxx'
         	),
-        	array(
-        		'uid' => 'image_upload',
-        		'label' => 'Image Upload',
-        		'section' => 'our_first_section',
-                'type' => 'file'
-        	),
+        	// array(
+        	// 	'uid' => 'image_upload',
+        	// 	'label' => 'Image Upload',
+        	// 	'section' => 'our_first_section',
+            //     'type' => 'file'
+        	// ),
         	// array(
         	// 	'uid' => 'awesome_number_field',
         	// 	'label' => 'Sample Number Field',
@@ -192,9 +192,7 @@
                     printf( '<fieldset>%s</fieldset>', $options_markup );
                 }
                 break;
-            case 'file':
-                arthur_image_uploader( $arguments['uid'], $width = 300, $height = 115 );
-                break;
+
         }
         if( $helper = $arguments['helper'] ){
             printf( '<span class="helper"> %s</span>', $helper );
@@ -204,43 +202,6 @@
         }
     }
 
-    // TODO: make this work with this plugin.
-        /**
-     * Image Uploader
-     *
-     * author: Arthur Gareginyan www.arthurgareginyan.com
-     */
-    
 
-    function arthur_image_uploader( $name, $width, $height ) {
-
-        // Set variables
-        $options = get_option( $name );
-        $default_image = plugins_url('img/no-image.png', __FILE__);
-        var_dump($name);
-
-        if ( !empty( $options[$name] ) ) {
-            $image_attributes = wp_get_attachment_image_src( $options[$name], array( $width, $height ) );
-            $src = $image_attributes[0];
-            $value = $options[$name];
-        } else {
-            $src = $default_image;
-            $value = '';
-        }
-
-        $text = __( 'Upload', RSSFI_TEXT );
-
-        // Print HTML field
-        echo '
-            <div class="upload">
-                <img data-src="' . $default_image . '" src="' . $src . '" max-width="' . $width . 'px" />
-                <div>
-                    <input type="hidden" name="' . $name . '" id="' . $name . '" value="' . $value . '" />
-                    <button type="submit" class="upload_image_button button">' . $text . '</button>
-                    <button type="submit" class="remove_image_button button">&times;</button>
-                </div>
-            </div>
-        ';
-    }
 
 ?>

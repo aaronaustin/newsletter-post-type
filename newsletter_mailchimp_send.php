@@ -27,10 +27,11 @@
 		    	// $url="https://us9.api.mailchimp.com/3.0/campaigns/".$campaignId."/actions/send";
 				// $sendResponse = $this->mailchimpSendRequest(null, $url);
 				// echo'success';
-				wp_send_json_success(json_encode($mailchimp_response)) ;
+				echo $mailchimp_response;
+				wp_send_json_success($mailchimp_response) ;
 		    }
 		    else {
-		    	wp_send_json_error(json_encode($mailchimp_response));
+		    	wp_send_json_error($mailchimp_response);
 		    }
 
 
@@ -80,7 +81,8 @@
 			//add campaign content with url
 			$templateData = new stdClass();
 		    $templateData->url = new stdClass();
-		    $templateData->url = $link;
+		    // $templateData->url = $link;
+		    $templateData->url = 'http://165.227.214.181/newsletter/test-newsletter/';
 		    $content_json = json_encode($templateData);
 		    $content_url="https://us9.api.mailchimp.com/3.0/campaigns/".$campaignId."/content";
 
