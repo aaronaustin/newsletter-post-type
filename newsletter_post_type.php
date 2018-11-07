@@ -56,6 +56,7 @@ function set_custom_edit_newsletter_columns($columns) {
 
 //add styles and scripts
 function newsletter_post_type_assets() {
+    global $post;
     wp_register_style('newsletter_post_type_style', plugins_url('style.css',__FILE__ ));
     wp_enqueue_style('newsletter_post_type_style');
     wp_register_script( 'newsletter_post_type_script', plugins_url('script.js',__FILE__ ));
@@ -63,8 +64,8 @@ function newsletter_post_type_assets() {
     wp_localize_script( 'newsletter_post_type_script', 'linkToNewsletter', array( 'myPermalink' => get_permalink($_GET['post']), ) );
     wp_localize_script( 'newsletter_post_type_script', 'newsletterSubject', array( 'subject' => get_field('subject',$_GET['post']), ) );
     wp_localize_script( 'newsletter_post_type_script', 'newsletterTitle', array( 'title' => get_the_title($_GET['post']), ) );
+    wp_localize_script( 'newsletter_post_type_script', 'newsletterPostId', array( 'id' => $_GET['post'], ) );
     wp_localize_script( 'acf_relationship_mods_script', 'newsletterDate', array( 'date' => date('m/d/Y', strtotime(get_field('send_date',$_GET['post']))), ) );
-
 }
 
 add_action( 'admin_init','newsletter_post_type_assets');

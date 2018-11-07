@@ -33,14 +33,22 @@
         */
         // original for single retrieve.
         //https://developer.wordpress.org/reference/functions/get_post_meta/
-        // $value = get_post_meta( $post->ID, 'newsletter_sent_date', true );
+        $value = get_post_meta( $post->ID, 'newsletter_sent_date', true );
+        $ifSentSendButtonClass = !empty($value)? ' hidden' : '';
+        $ifSentSentButtonClass = empty($value)? ' hidden' : '';
 
-
-        echo '<button id="newsletter-send-reveal" class="button button-primary send">Send Newsletter</button>
-            <button id="send-newsletter" class="button button-primary hide">Are You Sure?</button>
-            <button id="cancel-newsletter" class="button button-red hide">&times;</button>
-            <input type="text" disabled id="newsletter_sent_date" name="newsletter_sent_date" value="' . esc_attr( $newsletter_meta['newsletter_sent_date'][0] ) . '" size="25" />';
+        echo '<div id="newsletter-sent-option" disabled class="button'  . $ifSentSentButtonClass .'">Newsletter Sent</div>
+             <button id="newsletter-send-reveal" class="button button-primary send">Send Newsletter</button>
+             <button id="send-newsletter" class="button button-primary hide">Are You Sure?</button>
+             <button id="sending-newsletter" class="button button-primary working hide" disabled>Sending...</button>
+             <button id="cancel-newsletter" class="button button-red hide">&times;</button>
+             <div id="newsletter-sent" class="button hide" disabled>Newsletter Sent</div>
+             <div id="newsletter-fail" class="button hide">Failed to Send.  Try again?</div>
+             <input type="text" disabled id="newsletter_sent_date" name="newsletter_sent_date" value="' . $value . '" />
+             <div id="sent-date-display"></div>';
     }
+
+
 
     /**
      * When the post is saved, saves our custom data.

@@ -32,7 +32,8 @@
             * @theme page
             */
             body, #bodyTable{
-                /*@editable*/ background-color:#f5f5f5;
+                /*@editable*/ background-color:#ffffff;
+                font-size: 18px;
             }
             ul.date-list li{
                 list-style-type: none;
@@ -43,9 +44,7 @@
                 font-style:none;
                 margin-bottom: 0;
             }
-            .borderTop {
-                border-top: 1px dashed #ddd;
-            }
+
             /**
             * @tab Page
             * @section background style
@@ -53,7 +52,7 @@
             * @theme page
             */
             #bodyCell{
-                /*@editable*/ border-top:4px solid #BBBBBB;
+            
             }
 
             /**
@@ -62,7 +61,6 @@
             * @tip Set the border for your email.
             */
             #templateContainer{
-                box-shadow: 0 0 12px rgba(0,0,0,0.1);
             }
 
             /**
@@ -74,11 +72,11 @@
             h1{
                 /*@editable*/ color:#202020 !important;
                 display:block;
-                /*@editable*/ font-family:Helvetica;
-                /*@editable*/ font-size:30px !important;
+                /*@editable*/ font-family:georgia,times,times new roman,serif;
+                /*@editable*/ font-size:28px !important;
                 /*@editable*/ font-style:normal;
                 /*@editable*/ font-weight:bold;
-                /*@editable*/ line-height:100%;
+                /*@editable*/ line-height:44px;
                 /*@editable*/ letter-spacing:normal;
                 margin-top:0;
                 margin-right:0;
@@ -177,7 +175,6 @@
             */
             #templatePreheader{
                 /*@editable*/ background-color:#fff;
-                border-bottom: 1px dashed #ddd;
             }
 
             /**
@@ -267,8 +264,7 @@
             * @theme main
             */
             .bodyContent{
-                /*@editable*/ color:#505050;
-                /*@editable*/ font-family:Helvetica;
+                /*@editable*/ font-family:georgia,times,times new roman,serif;
                 /*@editable*/ font-size:18px;
                 /*@editable*/ line-height:150%;
                 padding-top:20px;
@@ -422,7 +418,98 @@
                     bottom: 0;
                     border-radius: 2px;
                 }
-
+                .date {
+                    font-family: 'Arial', sans-serif;
+                    text-align: center;
+                }
+                .month {
+                    font-family: 'Arial', sans-serif;
+                    text-align: center;
+                    color: #068ccd;
+                    font-size: 18px;
+                    height: 30px
+                }
+                .day {
+                    font-family: 'Arial', sans-serif;
+                    text-align: center;
+                    font-size: 28px;
+                    height: 40px;
+                }
+                .weekday-time {
+                    font-family: 'Arial', sans-serif;
+                    color: #555;
+                    font-size: 16px;
+                    display: inline-block;
+                    height: 30px;
+                    line-height: 30px;
+                }
+                .bodyImage {
+                    /* margin-bottom: 20px; */
+                    height:auto !important;
+                    /*@editable*/ max-width:600px !important;
+                    /*@editable*/ width:100% !important;
+                    /* border: 20px solid #fff; */
+                    /* box-shadow: 2px 0 10px rgba(0,0,0,0.25); */
+                }
+                .headerTitle {
+                    border-top: 1px solid #ccc;
+                    border-bottom: 1px solid #ccc;
+                }
+                .marginBlock {
+                    height: 40px;
+                    text-align: center;
+                }
+                .emailButton {
+                    background-color: #fff;
+                    border-collapse: separate;
+                    border-radius: 4px;
+                    border: 1px solid #068ccd;
+                }
+                .buttonContent {
+                    color: #FFFFFF;
+                    font-family: Helvetica;
+                    font-size: 14px;
+                    font-weight: normal;
+                    line-height: auto;
+                    padding: 8px 16px;
+                    text-align: center;
+                }
+                .buttonContent a {
+                    color: #068ccd;
+                    display: block;
+                    text-decoration: none;
+                }
+                
+                .avatar {
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 50%;
+                    border: 1px dashed #bbb;
+                    margin: 8px;
+                    padding: 4px;
+                }
+                .emailButtonSolid {
+                    background-color: #068ccd;
+                    border-collapse: separate;
+                    border-radius: 4px;
+                    border: 1px solid #fff;
+                    height: 70px;
+                }
+                .buttonContentSolid {
+                    color: #FFFFFF;
+                    font-family: Helvetica;
+                    font-size: 18px;
+                    font-weight: normal;
+                    line-height: auto;
+                    padding: 8px 16px;
+                    text-align: center;
+                }
+                .buttonContentSolid a {
+                    color: #fff;
+                    text-decoration: none;
+                }
+                
+                
             /* /\/\/\/\/\/\/\/\/ MOBILE STYLES /\/\/\/\/\/\/\/\/ */
 
             @media only screen and (max-width: 480px){
@@ -453,7 +540,7 @@
                 * @tip Make the first-level headings larger in size for better readability on small screens.
                 */
                 h1{
-                    /*@editable*/ font-size:30px !important;
+                    /*@editable*/ font-size:28px !important;
                     /*@editable*/ line-height:100% !important;
                 }
 
@@ -542,12 +629,7 @@
                     /*@editable*/ font-size:18px !important;
                     /*@editable*/ line-height:125% !important;
                 }
-                .bodyImage {
-                    margin-bottom: 20px;
-                    height:auto !important;
-                    /*@editable*/ max-width:560px !important;
-                    /*@editable*/ width:100% !important;
-				}
+                
 
                 /* ======== Footer Styles ======== */
 
@@ -592,6 +674,7 @@
 	$audio_posts = get_posts($audio_args);
 	$blog_posts = get_posts($blog_args);
     $newsletter_items = get_field('newsletter_items');
+    $big_buttons = get_field('big_buttons')
     //     echo '<pre>';
     // print_r( get_field('newsletter_items')  );
     // echo '</pre>';
@@ -608,14 +691,10 @@
                                     <!-- BEGIN PREHEADER // -->
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templatePreheader">
                                         <tr>
-                                            <td valign="top" class="preheaderContent" style="padding-top:10px; padding-right:20px; padding-bottom:10px; padding-left:20px;" mc:edit="preheader_content00">
-                                                Central Baptist Church Weekly Update, <?php echo date('M j, Y'); ?>
+                                            <td valign="top" colspan="2" class="preheaderContent" style="padding-top:10px; padding-right:20px; padding-bottom:10px; padding-left:20px; text-align: center" mc:edit="preheader_content00">
+                                                <a href="<?php get_permalink()?>">Central Baptist Church Weekly Update, <?php echo date('M j, Y'); ?></a>
                                             </td>
-                                            <!-- *|IFNOT:ARCHIVE_PAGE|* -->
-                                            <td valign="top" width="180" class="preheaderContent" style="text-align: right;padding-top:10px; padding-right:20px; padding-bottom:10px; padding-left:0;" mc:edit="preheader_content01">
-                                                <a href="*|ARCHIVE|*" target="_blank">View in browser</a>
-                                            </td>
-                                            <!-- *|END:IF|* -->
+                                        
                                         </tr>
                                     </table>
                                     <!-- // END PREHEADER -->
@@ -640,16 +719,16 @@
 								<?php the_post();?>
                                 <td align="center" valign="top">
                                     <!-- BEGIN BODY // -->
-                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateBody">
+                                    <table border="0" cellspacing="0" width="100%" id="templateBody">
 										<tr>
-											<td colspan="2" valign="top" class="bodyContent" style="font-size: 18px; padding: 40px 50px" mc:edit="body_content">
-												<?php echo the_post_thumbnail(); ?>
+											<td colspan="2" valign="top" class="bodyContent" style="padding: 40px 50px; text-align: center;" mc:edit="body_content">
+												<?php echo the_post_thumbnail('medium', array( 'style' => 'max-width: 250px;' )); ?>
 											</td>
 										</tr>
                                         <tr>
-                                            <td colspan="2" valign="top" class="bodyContent" style="background-color:#F8F8F8;" mc:edit="body_content">
+                                            <td colspan="2" valign="top" class="bodyContent headerTitle" style="" mc:edit="body_content">
                                                 <h1 style="text-align: center; font-size: 18px; margin-top: 10px;">Weekly Update</h1>
-                                                <h2 style="text-align: center"> <?php echo date('M j, Y'); ?></h2>
+                                                <h3 style="text-align: center"> <?php echo date('M j, Y'); ?></h3>
                                             </td>
                                         </tr>
                                         <tr>
@@ -658,6 +737,58 @@
                                             </td>
                                         </tr>
                                         <tr>
+                                            <td colspan="2">
+                                                <table width="100%" cellspacing="0" style="text-align: center;">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td width="33.33%">
+                                                                <table width="100%" class="emailButtonSolid" cellspacing="0" cellpadding="0" border="0">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td class="buttonContentSolid" valign="middle" align="center">
+                                                                                <a href="<?php echo $big_buttons['big_button_left_url'];?>" target="_blank">
+                                                                                    <?php echo $big_buttons['big_button_left_label'];?>
+                                                                                </a>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                            <td width="33.33%">
+                                                                <table width="100%" class="emailButtonSolid" cellspacing="0" cellpadding="0" border="0">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td class="buttonContentSolid" valign="middle" align="center">
+                                                                                <a href="<?php echo $big_buttons['big_button_center_url'];?>" target="_blank">
+                                                                                    <?php echo $big_buttons['big_button_center_label'];?>
+                                                                                </a>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                            <td width="33.33%">
+                                                                <table width="100%" class="emailButtonSolid" cellspacing="0" cellpadding="0" border="0">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td class="buttonContentSolid" valign="middle" align="center">
+                                                                                <a href="<?php echo $big_buttons['big_button_right_url'];?>" target="_blank">
+                                                                                    <?php echo $big_buttons['big_button_right_label'];?>
+                                                                                </a>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                    
+
+
+                                            </td>
+                                        </tr>
+                                        <!-- <tr>
                                             <td colspan="2" valign="top" class="bodyContent" style="font-size: 18px;" mc:edit="body_content">
                                                 <h1 style="font-size: 24px;">Latest Audio Posts</h1>
                                                 <?php foreach($audio_posts as $p): ?>
@@ -674,29 +805,76 @@
                                                 <span><?php echo $p->post_title; ?></span>
                                                 <?php endforeach; ?>
                                             </td>
-										</tr>
+										</tr> -->
 
-										
-                                        <?php foreach($newsletter_items as $item): ?>
+										<tr class="marginBlock"><td colspan="2"></td></tr>
+                                        <?php foreach($newsletter_items as $item): 
+                                            $thumb = get_post_thumbnail_id($item['post']->ID);
+                                            $category = get_the_category($item['post']->ID);
+                                            $post_author = get_the_author($item['post']->ID);
+                                            $author_override = get_field('author_override', $item['post']->ID);
+                                            $author_id = get_the_author_meta('ID');
+                                            $author_gravatar = empty($author_override) ? get_avatar($author_id, $size, array('class' => 'avatar')) : '';
+                                            $author = !empty($author_override) ? $author_override : $post_author; 
+                                            // background-color:<?php echo get_post_meta($thumb, 'dominant_color_hex')[0];
+                                        ?>
 											<tr>
-												<td colspan="2" valign="top" class="bodyContent" style="font-size: 18px;" mc:edit="body_content">
+												<td colspan="2" valign="top" mc:edit="body_content" style="text-align: center;">
 													<a href="<?php echo $item['post']->post_name; ?>">
-														<?php echo get_the_post_thumbnail($item['post']->ID, 'full', array('class' => 'bodyImage', 'style' => 'max-width:560px; margin-bottom: 20px;')) ?>
-													</a>
-													<a href="<?php echo $item->url; ?>" style="text-decoration: none;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
-														<h1 style="font-size: 24px;"><?php echo $item['replace_title'] ? $item['title'] : $item['post']->post_title ?></h1>
-														<?php if($item['post']->start_date): ?>
-															<h4 style="font-size: 16px;"><span class="inverse"><?php echo date('M j', strtotime($item['post']->start_date)); ?></span><?php echo date('l \a\t g:i a', strtotime($item['post']->start_date)); ?></h4>
-														<?php endif; ?>
-													</a>
-														
-														<?php echo wp_trim_words( $item['post']->post_content, $num_words = 10, $more = '… ' ); ?>
-														<?php if(str_word_count($item['post']->post_content) > $num_words): ?>
-															<p>
-															<a class="buttonLink" href="<?php echo $item['post']->post_name; ?>" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;text-decoration:none;">More &#10132;</a>
-														<?php endif; ?>
+                                                        <?php echo get_the_post_thumbnail($item['post']->ID, 'large', array('class' => 'bodyImage', 'style' => 'max-width:600px; ')) ?>
+                                                    </a>
 												</td>
-											</tr>
+                                            </tr>
+                                            <tr>
+                                                <td valign="top" width="80px">
+                                                    
+                                                    <?php if($category[0]->slug == 'event'): ?>
+                                                        <table width="80px" class="date" align="left">
+                                                            <tr>
+                                                                <td width="80px"class="month"><?php echo date('M', strtotime($item['post']->start_date)); ?></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td width="80px"class="day"><?php echo date('d', strtotime($item['post']->start_date)); ?></td>
+                                                            </tr>
+                                                        </table>
+                                                    <?php elseif($category[0]->slug == 'blog'): ?>
+                                                        <?php echo $author_gravatar;?>
+                                                    <?php elseif($category[0]->slug == 'audio'): ?>
+                                                        <img src="<?php echo plugins_url('assets/media.png',__FILE__ );?>" class="avatar">
+                                                    <?php elseif($category[0]->slug == 'news'): ?>
+                                                        <img src="<?php echo plugins_url('assets/news.png',__FILE__ );?>" class="avatar">
+                                                    <?php endif;?>
+                                                </td>
+                                                <td>
+                                                    <?php if($category[0]->slug == 'event'): ?>
+                                                        <span class="weekday-time" ><?php echo date('l • g:i a', strtotime($item['post']->start_date)); ?></span>
+                                                    <?php elseif($category[0]->slug == 'blog'): ?>
+                                                        <span class="weekday-time" >Blog post by <?php echo $author ?></span>
+                                                    <?php elseif($category[0]->slug == 'audio'): ?>
+                                                        <span class="weekday-time" >Recorded on  <?php echo date('M j, Y', strtotime($item['post']->post_date)); ?></span>
+                                                    
+                                                    <?php endif;?>
+                                                    <h1 style="font-size: 24px;"><?php echo $item['replace_title'] ? $item['title'] : $item['post']->post_title ?></h1>
+														<p>
+                                                            <?php echo wp_trim_words( $item['post']->post_content, $num_words = 30, $more = '… ' ); ?>
+                                                        </p>
+                                                        <?php if(str_word_count($item['post']->post_content) > $num_words): ?>
+                                                            <table class="emailButton" cellspacing="0" cellpadding="0" border="0">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td class="buttonContent" valign="middle" align="center">
+                                                                            <a href="<?php echo $item['post']->post_name; ?>" target="_blank">More</a>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        <?php endif; ?>
+                                                        
+                                                        
+                                                </td>
+                                            </tr>
+
+                                            <tr class="marginBlock"><td colspan="2"></td></tr>
                                     	<?php endforeach; ?>
                                         <tr>
                                             <td valign="top" colspan="2" class="bodyContent borderTop" style="font-size: 18px; text-align:center;" mc:edit="body_content">

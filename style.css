@@ -32,3 +32,19 @@ label span {
 .button.hide {
   display:none;
 }
+
+#newsletter_sectionid .inside {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#newsletter-send-reveal, #sending-newsletter, #newsletter-sent, #newsletter-fail, #newsletter_sent_date, #sent-date-display, #cancel-newsletter, #newsletter-sent-option{
+  flex-grow: 1;
+}
+
+#send-newsletter {
+  flex-grow: 4;
+}
+#newsletter_sent_date {
+  width: 100%;
+}
