@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        
         <title>Central Baptist Church Weekly Update - <?php echo $start_date; ?></title>
         <style type="text/css">
             /* /\/\/\/\/\/\/\/\/ CLIENT-SPECIFIC STYLES /\/\/\/\/\/\/\/\/ */
@@ -73,7 +74,7 @@
                 /*@editable*/ color:#202020 !important;
                 display:block;
                 /*@editable*/ font-family:georgia,times,times new roman,serif;
-                /*@editable*/ font-size:28px !important;
+                /*@editable*/ font-size:28px ;
                 /*@editable*/ font-style:normal;
                 /*@editable*/ font-weight:bold;
                 /*@editable*/ line-height:44px;
@@ -92,10 +93,10 @@
             * @style heading 2
             */
             h2{
-                /*@editable*/ color:#404040 !important;
+                /*@editable*/ color:#202020 !important;
                 display:block;
-                /*@editable*/ font-family:Helvetica;
-                /*@editable*/ font-size:20px;
+                /*@editable*/ font-family:georgia,times,times new roman,serif;
+                /*@editable*/ font-size:18px;
                 /*@editable*/ font-style:normal;
                 /*@editable*/ font-weight:bold;
                 /*@editable*/ line-height:100%;
@@ -207,9 +208,6 @@
             * @tip Set the background color and borders for your email's header area.
             * @theme header
             */
-            #templateHeader{
-                /*@editable*/ background-color:#F4F4F4;
-            }
 
             /**
             * @tab Header
@@ -222,10 +220,7 @@
                 /*@editable*/ font-size:20px;
                 /*@editable*/ font-weight:bold;
                 /*@editable*/ line-height:100%;
-                /*@editable*/ padding-top:0;
-                /*@editable*/ padding-right:0;
-                /*@editable*/ padding-bottom:0;
-                /*@editable*/ padding-left:0;
+                padding: 40px 40px 20px 40px;
                 /*@editable*/ text-align:left;
                 /*@editable*/ vertical-align:middle;
             }
@@ -292,6 +287,9 @@
                 display:inline;
                 height:auto;
                 max-width:560px;
+            }
+            .bodyContent.mainContent img{
+                /* width: */
             }
 			a.buttonLink {
 				background-color: transparent;
@@ -452,8 +450,7 @@
                     /* box-shadow: 2px 0 10px rgba(0,0,0,0.25); */
                 }
                 .headerTitle {
-                    border-top: 1px solid #ccc;
-                    border-bottom: 1px solid #ccc;
+                    /* border-top: 1px solid #ccc; */
                 }
                 .marginBlock {
                     height: 40px;
@@ -508,6 +505,35 @@
                     color: #fff;
                     text-decoration: none;
                 }
+                ul.simple {
+                    font-family: Helvetica, sans-serif;
+                    padding-left: 0;
+                }
+                ul.simple li {
+                    list-style-type: none;
+                }
+                ul.simple li span.time{
+                    display: inline-block;
+                    width: 100px;
+                    color: #068ccd;
+                    vertical-align: top;
+                }
+                ul.simple li span.time-long{
+                    display: inline-block;
+                    width: 200px;
+                    color: #068ccd;
+                    vertical-align: top;
+                }
+                ul.simple li span.event-title{
+                    display: inline-block;
+                    max-width:450px;
+                }
+                img.alignright { float: right; margin: 0 0 1em 1em; width: auto;}
+                img.alignleft { float: left; margin: 0 1em 1em 0; width: auto;}
+                img.aligncenter { display: block; margin-left: auto; margin-right: auto; width: auto;}
+                .alignright { float: right; width: auto;}
+                .alignleft { float: left; width: auto;}
+                .aligncenter { display: block; margin-left: auto; margin-right: auto; width: auto;}
                 
                 
             /* /\/\/\/\/\/\/\/\/ MOBILE STYLES /\/\/\/\/\/\/\/\/ */
@@ -555,7 +581,7 @@
                 * @tip Make the second-level headings larger in size for better readability on small screens.
                 */
                 h2{
-                    /*@editable*/ font-size:20px !important;
+                    /*@editable*/ font-size:18px !important;
                     /*@editable*/ line-height:100% !important;
                 }
 
@@ -650,6 +676,7 @@
 	</head>
 
 <?php 
+
 	//get page data
 	$audio_args = array(
 		'numberposts'   => 3,
@@ -670,11 +697,99 @@
 		'post_status'      => 'publish',
         'suppress_filters' => true ,
         'category_name' => 'blog'
-	);
+    );
+
+    $next_sunday_date = date('Y-m-d',strtotime('next sunday', strtotime(get_field('send_date'))));
+    $next_saturday_date = date('Y-m-d',strtotime('next saturday', strtotime(get_field('send_date'))));
+    $prev_sunday_date = date('Y-m-d',strtotime('last sunday', strtotime(get_field('send_date'))));
+
+    // fix ordering  https://stackoverflow.com/questions/29966741/how-to-fetch-posts-order-by-meta-value
+    //https://wordpress.stackexchange.com/questions/246355/order-by-multiple-meta-key-and-meta-value
+    // https://support.advancedcustomfields.com/forums/topic/using-acf-date-to-sort-custom-post-types-not-sorting-correctly/
+	$sunday_args = array(
+        'offset'           => 0,
+        'meta_query' => array(
+            'date_clause' => array(
+                array('key' => 'event_start_datetime',
+                        'value' => $next_sunday_date,
+                        'compare' => 'LIKE'
+                )
+            )
+        ),
+		'post_type'        => 'post',
+		'post_status'      => 'publish',
+        'suppress_filters' => false ,
+        'orderby'   => 'meta_value',
+        'order'            => 'ASC',
+    );
+
+    //here's where I stopped.  Trying to get filters and limits.
+	$this_week_args = array(
+        'offset'           => 0,
+        'meta_query' => array(
+            array(
+                'key' => 'event_start_datetime',
+                // value should be array of (lower, higher) with BETWEEN
+                'value' => array(date('Y-m-d',strtotime(get_field('send_date'))), $next_saturday_date),
+                'compare' => 'BETWEEN',
+                'type' => 'DATE'
+            ),
+        ),
+		'post_type'        => 'post',
+		'post_status'      => 'publish',
+        'suppress_filters' => false ,
+        'orderby'   => 'event_start_datetime',
+        'order'            => 'ASC',
+        'category_name' => 'event',
+    );
+
+    // $sunday_posts_Query = new WP_Query(
+    //     array( 
+    //     'offset'           => 0,
+    //     'meta_query' => array(
+    //         // 'relation' => 'AND',
+    //         'date_clause' => array(
+    //             array('key' => 'event_start_datetime',
+    //                     'value' => $next_sunday_date,
+    //                     'compare' => 'LIKE'
+    //             )
+    //         )
+    //     ),
+	// 	'post_type'        => 'post',
+	// 	'post_status'      => 'publish',
+    //     'suppress_filters' => false ,
+    //     'orderby'   => 'meta_value',
+	// 	'order'            => 'ASC',
+    //     )
+    // );
+    $prev_worship_args = array(
+        'offset'           => 0,
+        'meta_query' => array(
+            'date_clause' => array(
+                array('key' => 'event_start_datetime',
+                        'value' => $prev_sunday_date,
+                        'compare' => 'LIKE'
+                )
+            )
+        ),
+		'post_type'        => 'post',
+		'post_status'      => 'publish',
+        'suppress_filters' => false ,
+        'orderby'   => 'meta_value',
+        'order'            => 'ASC',
+        'category_name'            => 'worship',
+    );
+    
 	$audio_posts = get_posts($audio_args);
 	$blog_posts = get_posts($blog_args);
+    $sunday_posts = get_posts($sunday_args);
+    $this_week_posts = get_posts($this_week_args);
+    $prev_worship_posts = get_posts($prev_worship_args);
     $newsletter_items = get_field('newsletter_items');
-    $big_buttons = get_field('big_buttons')
+    $big_buttons = get_field('big_buttons');
+    $logo = get_field('site_logo_bitmap', 'option');
+    $front_base_url = get_field('front_URL', 'option');
+
     //     echo '<pre>';
     // print_r( get_field('newsletter_items')  );
     // echo '</pre>';
@@ -691,8 +806,8 @@
                                     <!-- BEGIN PREHEADER // -->
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templatePreheader">
                                         <tr>
-                                            <td valign="top" colspan="2" class="preheaderContent" style="padding-top:10px; padding-right:20px; padding-bottom:10px; padding-left:20px; text-align: center" mc:edit="preheader_content00">
-                                                <a href="<?php get_permalink()?>">Central Baptist Church Weekly Update, <?php echo date('M j, Y'); ?></a>
+                                            <td valign="top" colspan="2" class="preheaderContent" style="padding-top:10px; padding-right:20px; padding-bottom:10px; padding-left:20px; text-align: center;" mc:edit="preheader_content00">
+                                                <a href="<?php get_permalink()?>">View In Browser</a>
                                             </td>
                                         
                                         </tr>
@@ -705,9 +820,9 @@
                                     <!-- BEGIN HEADER // -->
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateHeader">
                                         <tr>
-                                            <td valign="top" class="headerContent">
-                                                <a href="http://www.lexcentral.com">
-                                                    <!-- <img src="<?php //echo site_url(); ?>addons/shared_addons/themes/lexcentralNew/img/central-baptist-newsandnotes.png" style="max-width:600px;" id="headerImage" mc:label="header_image" mc:edit="header_image" mc:allowdesigner mc:allowtext /> -->
+                                            <td valign="top" class="headerContent" style="text-align: center;">
+                                                <a href="<?php echo $front_base_url;?>">
+                                                    <img src="<?php echo $logo['url'];?>" style="max-width: 300px; margin: auto;" />
                                                 </a>
                                             </td>
                                         </tr>
@@ -720,19 +835,16 @@
                                 <td align="center" valign="top">
                                     <!-- BEGIN BODY // -->
                                     <table border="0" cellspacing="0" width="100%" id="templateBody">
-										<tr>
-											<td colspan="2" valign="top" class="bodyContent" style="padding: 40px 50px; text-align: center;" mc:edit="body_content">
-												<?php echo the_post_thumbnail('medium', array( 'style' => 'max-width: 250px;' )); ?>
-											</td>
-										</tr>
+
                                         <tr>
                                             <td colspan="2" valign="top" class="bodyContent headerTitle" style="" mc:edit="body_content">
-                                                <h1 style="text-align: center; font-size: 18px; margin-top: 10px;">Weekly Update</h1>
-                                                <h3 style="text-align: center"> <?php echo date('M j, Y'); ?></h3>
+                                                
+                                                <h1 style="text-align: center; font-size: 30px; margin-top: 10px; font-style: italic;border-bottom: 1px solid #ccc; padding-bottom: 10px;">Weekly Update</h1>
+                                                <h3 style="text-align: center; text-transform: uppercase; font-size: 15px; font-weight: bold;"> <?php echo date('M j, Y', strtotime(get_field('send_date'))); ?></h3>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2" valign="top" class="bodyContent" style="font-size: 18px;" mc:edit="body_content">
+                                            <td colspan="2" valign="top" class="bodyContent mainContent" style="font-size: 18px;" mc:edit="body_content">
                                                 <?php echo the_content(); ?>
                                             </td>
                                         </tr>
@@ -788,24 +900,44 @@
 
                                             </td>
                                         </tr>
-                                        <!-- <tr>
-                                            <td colspan="2" valign="top" class="bodyContent" style="font-size: 18px;" mc:edit="body_content">
-                                                <h1 style="font-size: 24px;">Latest Audio Posts</h1>
-                                                <?php foreach($audio_posts as $p): ?>
-                                                <span class="audio-icon"></span>
-                                                <span><?php echo $p->post_title; ?></span>
-                                                <?php endforeach; ?>
+                                        
+                                        <tr class="marginBlock"><td colspan="2"></td></tr>
+
+                                        <tr>
+                                            <td colspan="2" valign="top" class="bodyContent" style="font-size: 18px; text-align: center" mc:edit="body_content">
+                                                <h2 style="font-size: 20px; text-align:center; font-style: italic;">This Sunday at Central &middot; <?php echo date('M j',strtotime($next_sunday_date));?></h2>
+                                                <ul class="simple" style="text-align: left; display: inline-block">
+                                                    <?php foreach($sunday_posts as $p): ?>
+                                                    <li><span class="time"><?php echo date('g:i a',strtotime($p->event_start_datetime)).'</span> <span class="event-title">'.$p->post_title; ?></span></li>
+                                                    <?php endforeach; ?>
+                                                </ul>
                                             </td>
 										</tr>
+
+
                                         <tr>
-                                            <td colspan="2" valign="top" class="bodyContent" style="font-size: 18px;" mc:edit="body_content">
-                                                <h1 style="font-size: 24px;">Latest Blog Posts</h1>
-                                                <?php foreach($blog_posts as $p): ?>
-                                                <span class="blog-icon"></span>
-                                                <span><?php echo $p->post_title; ?></span>
-                                                <?php endforeach; ?>
+                                            <td colspan="2" valign="top" class="bodyContent" style="font-size: 18px; text-align: center" mc:edit="body_content">
+                                                <h2 style="font-size: 20px; text-align:center; font-style: italic;">Other Events this Week</h2>
+                                                <ul class="simple" style="text-align: left; display: inline-block">
+                                                    <?php foreach($this_week_posts as $p): ?>
+                                                    <li><span class="time-long"><?php echo date('D M j • g:i a',strtotime($p->event_start_datetime)).'</span> <span class="event-title">'.$p->post_title; ?></span></li>
+                                                    <?php endforeach; ?>
+                                                </ul>
                                             </td>
-										</tr> -->
+										</tr>
+                                       
+
+                                        <tr>
+                                            <td colspan="2" valign="top" class="bodyContent" style="font-size: 18px; text-align: center" mc:edit="body_content">
+                                                <h2 style="font-size: 20px; text-align:center; font-style: italic;">Last Week's Worship &middot; <?php echo date('M j',strtotime($prev_sunday_date));?></h2>
+                                                <ul class="simple" style="text-align: left; display: inline-block">
+                                                    <?php foreach($prev_worship_posts as $p): ?>
+                                                    <li><span class="time"><?php echo date('g:i a',strtotime($p->event_start_datetime)).'</span> <span class="event-title"><a href="'.$front_base_url.'/'.$p->path_custom.'">Watch &amp; Listen</a>' ?></span></li>
+                                                    <?php endforeach; ?>
+                                                </ul>
+                                            </td>
+										</tr>
+                                       
 
 										<tr class="marginBlock"><td colspan="2"></td></tr>
                                         <?php foreach($newsletter_items as $item): 
@@ -820,7 +952,7 @@
                                         ?>
 											<tr>
 												<td colspan="2" valign="top" mc:edit="body_content" style="text-align: center;">
-													<a href="<?php echo $item['post']->post_name; ?>">
+													<a href="<?php echo $front_base_url.'/'.$item['post']->path_custom; ?>">
                                                         <?php echo get_the_post_thumbnail($item['post']->ID, 'large', array('class' => 'bodyImage', 'style' => 'max-width:600px; ')) ?>
                                                     </a>
 												</td>
@@ -828,13 +960,13 @@
                                             <tr>
                                                 <td valign="top" width="80px">
                                                     
-                                                    <?php if($category[0]->slug == 'event'): ?>
+                                                    <?php if($category[0]->slug == 'event' || $category[0]->slug == 'worship'): ?>
                                                         <table width="80px" class="date" align="left">
                                                             <tr>
-                                                                <td width="80px"class="month"><?php echo date('M', strtotime($item['post']->start_date)); ?></td>
+                                                                <td width="80px"class="month"><?php echo date('M', strtotime($item['post']->event_start_datetime)); ?></td>
                                                             </tr>
                                                             <tr>
-                                                                <td width="80px"class="day"><?php echo date('d', strtotime($item['post']->start_date)); ?></td>
+                                                                <td width="80px"class="day"><?php echo date('d', strtotime($item['post']->event_start_datetime)); ?></td>
                                                             </tr>
                                                         </table>
                                                     <?php elseif($category[0]->slug == 'blog'): ?>
@@ -846,8 +978,8 @@
                                                     <?php endif;?>
                                                 </td>
                                                 <td>
-                                                    <?php if($category[0]->slug == 'event'): ?>
-                                                        <span class="weekday-time" ><?php echo date('l • g:i a', strtotime($item['post']->start_date)); ?></span>
+                                                    <?php if($category[0]->slug == 'event' || $category[0]->slug == 'worship'): ?>
+                                                        <span class="weekday-time" ><?php echo date('l • g:i a', strtotime($item['post']->event_start_datetime)); ?></span>
                                                     <?php elseif($category[0]->slug == 'blog'): ?>
                                                         <span class="weekday-time" >Blog post by <?php echo $author ?></span>
                                                     <?php elseif($category[0]->slug == 'audio'): ?>
@@ -863,7 +995,7 @@
                                                                 <tbody>
                                                                     <tr>
                                                                         <td class="buttonContent" valign="middle" align="center">
-                                                                            <a href="<?php echo $item['post']->post_name; ?>" target="_blank">More</a>
+                                                                            <a href="<?php echo $front_base_url.'/'.$item['post']->path_custom; ?>" target="_blank">More</a>
                                                                         </td>
                                                                     </tr>
                                                                 </tbody>
@@ -878,7 +1010,7 @@
                                     	<?php endforeach; ?>
                                         <tr>
                                             <td valign="top" colspan="2" class="bodyContent borderTop" style="font-size: 18px; text-align:center;" mc:edit="body_content">
-                                                <a style="white-space:nowrap" href="http://www.lexcentral.com">&nbsp;&nbsp;Visit our website&nbsp;&nbsp;</a>  <a style="white-space:nowrap" href="http://www.facebook.com/LexCentral/">&nbsp;&nbsp;Find us on Facebook&nbsp;&nbsp;</a> <a style="white-space:nowrap" href="*|FORWARD|*">&nbsp;&nbsp;Forward to Friend&nbsp;&nbsp;</a>
+                                                <a style="white-space:nowrap" href="<?php echo $front_base_url; ?>">&nbsp;&nbsp;Visit our website&nbsp;&nbsp;</a>  <a style="white-space:nowrap" href="http://www.facebook.com/LexCentral/">&nbsp;&nbsp;Find us on Facebook&nbsp;&nbsp;</a> <a style="white-space:nowrap" href="*|FORWARD|*">&nbsp;&nbsp;Forward to Friend&nbsp;&nbsp;</a>
                                             </td>
                                         </tr>
 
